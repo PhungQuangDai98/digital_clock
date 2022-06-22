@@ -374,25 +374,32 @@ class ClocksArray {
 
 class DigitalClock {
 	constructor(target) {
+		this.hourL = new ClocksArray(target);
+		this.hourR = new ClocksArray(target);
 		this.minuteL = new ClocksArray(target);
 		this.minuteR = new ClocksArray(target);
-		this.secondL = new ClocksArray(target);
-		this.secondR = new ClocksArray(target);
 	}
 
-	displayTime(minuteL, minuteR, secondL, secondR) {
+	displayTime(hourL, hourR, minuteL, minuteR) {
+		this.hourL.display(digits[hourL]);
+		this.hourR.display(digits[hourR]);
 		this.minuteL.display(digits[minuteL]);
 		this.minuteR.display(digits[minuteR]);
-		this.secondL.display(digits[secondL]);
-		this.secondR.display(digits[secondR]);
 	}
 
 	start() {
 		setInterval(() => {
 			let date = new Date();
-			let minutes = date.getHours();
-			let seconds = date.getMinutes();
-			let minuteL, minuteR, secondL, secondR;
+			let hours = date.getHours();
+			let minutes = date.getMinutes();
+			let hourL, hourR, minuteL, minuteR;
+
+			if (hours < 10) {
+				hourL = 0;
+				hourR = hours;
+			} else {
+				[hourL, hourR] = hours.toString().split("");
+			}
 
 			if (minutes < 10) {
 				minuteL = 0;
@@ -401,14 +408,7 @@ class DigitalClock {
 				[minuteL, minuteR] = minutes.toString().split("");
 			}
 
-			if (seconds < 10) {
-				secondL = 0;
-				secondR = seconds;
-			} else {
-				[secondL, secondR] = seconds.toString().split("");
-			}
-
-			this.displayTime(minuteL, minuteR, secondL, secondR);
+			this.displayTime(hourL, hourR, minuteL, minuteR);
 		}, 1000);
 	}
 }
