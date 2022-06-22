@@ -390,8 +390,8 @@ class DigitalClock {
 	start() {
 		setInterval(() => {
 			let date = new Date();
-			let minutes = date.getMinutes();
-			let seconds = date.getSeconds();
+			let minutes = date.getHours();
+			let seconds = date.getMinutes();
 			let minuteL, minuteR, secondL, secondR;
 
 			if (minutes < 10) {
